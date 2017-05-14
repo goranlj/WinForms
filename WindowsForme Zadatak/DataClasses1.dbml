@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Database" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database.mdf;Integrated Security=True" SettingsObjectName="WindowsForme_Zadatak.Properties.Settings" SettingsPropertyName="DatabaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Partneri" Member="Partneris">
+    <Type Name="Partneri">
+      <Column Name="PartneriId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Naziv" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="TipPoduzeca" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Adresa" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="MjestaId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OIB" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Telefon" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Telefaks" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="WebStranica" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Napomena" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Mjesta_Partneri" Member="Mjesta" ThisKey="MjestaId" OtherKey="MjestaId" Type="Mjesta" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Mjesta" Member="Mjestas">
+    <Type Name="Mjesta">
+      <Column Name="MjestaId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Naziv" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DrzaveId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Mjesta_Partneri" Member="Partneris" ThisKey="MjestaId" OtherKey="MjestaId" Type="Partneri" />
+      <Association Name="Drzave_Mjesta" Member="Drzave" ThisKey="DrzaveId" OtherKey="DrzaveId" Type="Drzave" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Drzave" Member="Drzaves">
+    <Type Name="Drzave">
+      <Column Name="DrzaveId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Naziv" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Drzave_Mjesta" Member="Mjestas" ThisKey="DrzaveId" OtherKey="DrzaveId" Type="Mjesta" />
+    </Type>
+  </Table>
+</Database>

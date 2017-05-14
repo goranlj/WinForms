@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses1">
+  <DataContextMoniker Name="/DataClasses1DataContext" />
+  <nestedChildShapes>
+    <classShape Id="27ac7d0a-181b-4e98-95d0-ebaf39b5f8a6" absoluteBounds="6.25, 1, 2, 3.1170068359375009">
+      <DataClassMoniker Name="/DataClasses1DataContext/Partneri" />
+      <nestedChildShapes>
+        <elementListCompartment Id="eb0deee3-b829-407d-9a1c-6db10894f9b8" absoluteBounds="6.265, 1.46, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="867a1b08-83c2-4c1d-be50-22bedd8fdc08" absoluteBounds="3.5, 1.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/DataClasses1DataContext/Mjesta" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9dda2dfa-7242-4493-8af0-ce0ad8fc51ac" absoluteBounds="3.515, 2.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4b0d78d1-3808-4299-8e4f-cca646e4f7a4" absoluteBounds="0.75, 1.875, 2, 1.3862939453124998">
+      <DataClassMoniker Name="/DataClasses1DataContext/Drzave" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2c68d8b0-958e-4272-aca9-1e5d1830b4a2" absoluteBounds="0.765, 2.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.53929768880208); (6.25 : 2.53929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/Mjesta/Mjesta_Partneri" />
+      <nodes>
+        <classShapeMoniker Id="867a1b08-83c2-4c1d-be50-22bedd8fdc08" />
+        <classShapeMoniker Id="27ac7d0a-181b-4e98-95d0-ebaf39b5f8a6" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.56814697265625); (3.5 : 2.56814697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClasses1DataContext/Drzave/Drzave_Mjesta" />
+      <nodes>
+        <classShapeMoniker Id="4b0d78d1-3808-4299-8e4f-cca646e4f7a4" />
+        <classShapeMoniker Id="867a1b08-83c2-4c1d-be50-22bedd8fdc08" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
