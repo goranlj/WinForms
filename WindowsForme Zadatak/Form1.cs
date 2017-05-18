@@ -70,7 +70,7 @@ namespace WindowsForme_Zadatak
         {
             
             GetPartneriResult();
-            UpdateComboBoxDrzave();
+             UpdateComboBoxDrzave();
             dataGridView1.ClearSelection();
             Clear();
 
@@ -173,31 +173,43 @@ namespace WindowsForme_Zadatak
         {
             if (Validation())
             {
-                var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
-                if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted==false && g.MjestaId == mjesto.MjestaId))
-                {
-                    MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
-
-                }
-                else
-                {
-
-                    if (!db.Mjestas.Any(g => g.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()) || 
+                    if (!db.Mjestas.Any(g => g.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()) ||
                         !db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == drzavacmbBox.Text.ToLower()))
                     {
                         Form2 f2 = new Form2(this);
                         f2.ShowDialog();
-                        mjestocmbBox.Text = Form2.unosTxt;
-                        drzavacmbBox.Text = Form2.unosTxtDrzava;
-                        NovoMjesto();
+                        if (Form2.unosTxt != null && Form2.unosTxtDrzava != null)
+                        {
+                            mjestocmbBox.Text = Form2.unosTxt;
+                            drzavacmbBox.Text = Form2.unosTxtDrzava;
+                            var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+
+                            if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId))
+                            {
+                                MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
+                            }
+                            else
+                                NovoMjesto();
+                        }
                     }
+
                     else
                     {
-                        NovoMjesto();
+                        var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+                        if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId))
+                        {
+                            MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
+                        }
+                        else
+                            NovoMjesto();
                     }
                 }
+            
+            
 
-            }
+                
+
+            
         }
 
         private void UpdateMjesto()
@@ -226,36 +238,60 @@ namespace WindowsForme_Zadatak
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
-            var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
-            if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId))
-            {
-                MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
-
-            }
-            else
-            {
-                if (Validation())
+            if (Validation())
                 {
+                    string TrenutnoMjesto = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+                    string TrenutniOIB = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+                    var trenutni = db.Partneris.Where(g => g.OIB.ToString().ToLower() == TrenutniOIB && g.Deleted == false && g.Mjesta.Naziv == TrenutnoMjesto).FirstOrDefault();
                     if (!db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == drzavacmbBox.Text.ToLower()) ||
                         !db.Mjestas.Any(g => g.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()))
                     {
+
                         Form2 f2 = new Form2(this);
                         f2.ShowDialog();
-                        mjestocmbBox.Text = Form2.unosTxt;
-                        drzavacmbBox.Text = Form2.unosTxtDrzava;
-                        UpdateMjesto();
-                        Clear();
+                        if (Form2.unosTxt != null && Form2.unosTxtDrzava != null)
+                        {
+                            var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+                            mjestocmbBox.Text = Form2.unosTxt;
+                            drzavacmbBox.Text = Form2.unosTxtDrzava;
+                            if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId && g.PartneriId != trenutni.PartneriId))
+                            {
+                                MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
+
+                            }
+                            else
+                            {
+                                UpdateMjesto();
+                                Clear();
+                            }
+
+                        }
                     }
+                    else
+                    {
+                    var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+                    if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId && g.PartneriId != trenutni.PartneriId))
+                        {
+                            MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
+
+                        }
+                        else
+                        {
+                            UpdateMjesto();
+                            Clear();
+                        }
+
+                    }
+            }
 
                     else
                     {
+                   
 
-                        UpdateMjesto();
-                        Clear();
-
-                    }
+                    
                 }
-            }
+            
+            
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
