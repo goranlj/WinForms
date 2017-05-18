@@ -41,6 +41,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.mjestocmbBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.nazivtextBox = new System.Windows.Forms.TextBox();
@@ -50,7 +51,6 @@
             this.webtxtBox = new System.Windows.Forms.TextBox();
             this.adresatxtBox = new System.Windows.Forms.TextBox();
             this.fakstxtBox = new System.Windows.Forms.TextBox();
-            this.mjestocmbBox = new System.Windows.Forms.ComboBox();
             this.telefontxtBox = new System.Windows.Forms.TextBox();
             this.oibtxtBox = new System.Windows.Forms.TextBox();
             this.InsertButton = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1284, 314);
             this.dataGridView1.TabIndex = 21;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
-            this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // groupBox1
             // 
@@ -211,6 +211,14 @@
             this.label4.TabIndex = 18;
             this.label4.Text = "Adresa";
             // 
+            // mjestocmbBox
+            // 
+            this.mjestocmbBox.FormattingEnabled = true;
+            this.mjestocmbBox.Location = new System.Drawing.Point(282, 27);
+            this.mjestocmbBox.Name = "mjestocmbBox";
+            this.mjestocmbBox.Size = new System.Drawing.Size(112, 21);
+            this.mjestocmbBox.TabIndex = 7;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -262,7 +270,7 @@
             this.tipcmbBox.Items.AddRange(new object[] {
             "doo",
             "dd"});
-            this.tipcmbBox.Location = new System.Drawing.Point(102, 29);
+            this.tipcmbBox.Location = new System.Drawing.Point(99, 29);
             this.tipcmbBox.Name = "tipcmbBox";
             this.tipcmbBox.Size = new System.Drawing.Size(76, 21);
             this.tipcmbBox.TabIndex = 11;
@@ -290,14 +298,6 @@
             this.fakstxtBox.Name = "fakstxtBox";
             this.fakstxtBox.Size = new System.Drawing.Size(133, 23);
             this.fakstxtBox.TabIndex = 10;
-            // 
-            // mjestocmbBox
-            // 
-            this.mjestocmbBox.FormattingEnabled = true;
-            this.mjestocmbBox.Location = new System.Drawing.Point(282, 27);
-            this.mjestocmbBox.Name = "mjestocmbBox";
-            this.mjestocmbBox.Size = new System.Drawing.Size(112, 21);
-            this.mjestocmbBox.TabIndex = 7;
             // 
             // telefontxtBox
             // 

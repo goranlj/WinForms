@@ -15,7 +15,7 @@ namespace WindowsForme_Zadatak
 
     public partial class Form1 : Form
     {
-        DataClasses1DataContext db;
+        DataClasses1DataContext db=new DataClasses1DataContext();
 
         public Form1()
         {
@@ -31,7 +31,6 @@ namespace WindowsForme_Zadatak
 
         private void UpdateComboBoxDrzave()
         {
-            db = new DataClasses1DataContext();
             drzavacmbBox.DataSource = db.Drzaves
                                       .Where(p => p.Deleted == false)
                                       .Select(p => p.Naziv)
@@ -39,12 +38,6 @@ namespace WindowsForme_Zadatak
             drzavacmbBox.SelectedIndex = -1;
 
         }
-
-        
-
-
-
-
 
         private void UpdateImena()
         {
@@ -115,7 +108,6 @@ namespace WindowsForme_Zadatak
 
         public void GetPartneriResult()
         {
-            db = new DataClasses1DataContext();
             var q = (from partneri in db.Partneris
                      join mjesta in db.Mjestas
                      on partneri.MjestaId equals mjesta.MjestaId
@@ -150,7 +142,6 @@ namespace WindowsForme_Zadatak
             try
             {
 
-                db = new DataClasses1DataContext();
                 Partneri partner = new Partneri();
                 partner.Naziv = nazivtextBox.Text;
                 partner.TipPoduzeca = tipcmbBox.Text;
@@ -182,9 +173,10 @@ namespace WindowsForme_Zadatak
         {
             if (Validation())
             {
-                if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text.ToLower()))
+                var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+                if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted==false && g.MjestaId == mjesto.MjestaId))
                 {
-                    MessageBox.Show("Morate unijet različiti OIB");
+                    MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
 
                 }
                 else
@@ -207,6 +199,7 @@ namespace WindowsForme_Zadatak
 
             }
         }
+
         private void UpdateMjesto()
         {
             string oib = dataGridView1.CurrentRow.Cells[5].Value.ToString();
@@ -233,43 +226,52 @@ namespace WindowsForme_Zadatak
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
-            if (Validation())
+            var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
+            if (db.Partneris.Any(g => g.OIB.ToString().ToLower() == oibtxtBox.Text && g.Deleted == false && g.MjestaId == mjesto.MjestaId))
             {
-                if (!db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == drzavacmbBox.Text.ToLower()) ||
-                    !db.Mjestas.Any(g => g.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()))
+                MessageBox.Show("Već postoji firma s tim OIB-om iz tog grada!");
+
+            }
+            else
+            {
+                if (Validation())
                 {
-                    Form2 f2 = new Form2(this);
-                    f2.ShowDialog();
-                    mjestocmbBox.Text = Form2.unosTxt;
-                    drzavacmbBox.Text = Form2.unosTxtDrzava;
-                    UpdateMjesto();
-                    Clear();
-                }
+                    if (!db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == drzavacmbBox.Text.ToLower()) ||
+                        !db.Mjestas.Any(g => g.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()))
+                    {
+                        Form2 f2 = new Form2(this);
+                        f2.ShowDialog();
+                        mjestocmbBox.Text = Form2.unosTxt;
+                        drzavacmbBox.Text = Form2.unosTxtDrzava;
+                        UpdateMjesto();
+                        Clear();
+                    }
 
-                else
-                {
+                    else
+                    {
 
-                    UpdateMjesto();
-                    Clear();
+                        UpdateMjesto();
+                        Clear();
 
+                    }
                 }
             }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            nazivtextBox.Text = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
-            tipcmbBox.Text = dataGridView1[1, dataGridView1.CurrentRow.Index].Value.ToString();
-            drzavacmbBox.Text = dataGridView1[2, dataGridView1.CurrentRow.Index].Value.ToString();
-            adresatxtBox.Text = dataGridView1[3, dataGridView1.CurrentRow.Index].Value.ToString();
-            mjestocmbBox.Text = dataGridView1[4, dataGridView1.CurrentRow.Index].Value.ToString();
-            oibtxtBox.Text = dataGridView1[5, dataGridView1.CurrentRow.Index].Value.ToString();
-            telefontxtBox.Text = dataGridView1[6, dataGridView1.CurrentRow.Index].Value.ToString();
-            fakstxtBox.Text = dataGridView1[7, dataGridView1.CurrentRow.Index].Value.ToString();
-            mailtxtBox.Text = dataGridView1[8, dataGridView1.CurrentRow.Index].Value.ToString();
-            webtxtBox.Text = dataGridView1[9, dataGridView1.CurrentRow.Index].Value.ToString();
-            napomenatxtBox.Text = dataGridView1[10, dataGridView1.CurrentRow.Index].Value.ToString();
-            dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected = true;
+                nazivtextBox.Text = dataGridView1[0, dataGridView1.CurrentRow.Index].Value.ToString();
+                tipcmbBox.Text = dataGridView1[1, dataGridView1.CurrentRow.Index].Value.ToString();
+                drzavacmbBox.Text = dataGridView1[2, dataGridView1.CurrentRow.Index].Value.ToString();
+                adresatxtBox.Text = dataGridView1[3, dataGridView1.CurrentRow.Index].Value.ToString();
+                mjestocmbBox.Text = dataGridView1[4, dataGridView1.CurrentRow.Index].Value.ToString();
+                oibtxtBox.Text = dataGridView1[5, dataGridView1.CurrentRow.Index].Value.ToString();
+                telefontxtBox.Text = dataGridView1[6, dataGridView1.CurrentRow.Index].Value.ToString();
+                fakstxtBox.Text = dataGridView1[7, dataGridView1.CurrentRow.Index].Value.ToString();
+                mailtxtBox.Text = dataGridView1[8, dataGridView1.CurrentRow.Index].Value.ToString();
+                webtxtBox.Text = dataGridView1[9, dataGridView1.CurrentRow.Index].Value.ToString();
+                napomenatxtBox.Text = dataGridView1[10, dataGridView1.CurrentRow.Index].Value.ToString();
+                dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected = true;
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -277,7 +279,6 @@ namespace WindowsForme_Zadatak
             DialogResult dialogResult = MessageBox.Show("Želite li sigurno izbrisati ovaj unos?", "Brisanje unosa", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
-                db = new DataClasses1DataContext();
                 string oib = dataGridView1.CurrentRow.Cells[5].Value.ToString();
                 var query = db.Partneris.Where(p => p.OIB.ToString() == oib).FirstOrDefault();
                 query.Deleted = true;
@@ -335,11 +336,6 @@ namespace WindowsForme_Zadatak
 
         private void searchButton_Click(object sender, EventArgs e)
         {
-           
-
-                    
-
-
             var q = (from partneri in db.Partneris
                      join mjesta in db.Mjestas
                      on partneri.MjestaId equals mjesta.MjestaId
@@ -383,11 +379,6 @@ namespace WindowsForme_Zadatak
         {
             RefreshAll();
             Clear();
-        }
-
-        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            MessageBox.Show(dataGridView1.CurrentCellAddress.ToString());
         }
 
         private void drzavacmbBox_TextChanged(object sender, EventArgs e)

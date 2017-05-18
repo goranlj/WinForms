@@ -13,7 +13,7 @@ namespace WindowsForme_Zadatak
     public partial class Form3 : Form
     {
 
-        DataClasses1DataContext db;
+        DataClasses1DataContext db = new DataClasses1DataContext();
         public Form3()
         {
             InitializeComponent();
@@ -30,12 +30,12 @@ namespace WindowsForme_Zadatak
         {
             UpdateTable();
             UpdateComboBoxDrzave();
+            comboBoxMjesta.Text = null;
             dataGridView1.ClearSelection();
         }
 
         private void UpdateTable()
         {
-            db = new DataClasses1DataContext();
             var t = (from mjesta in db.Mjestas
                      join drzave in db.Drzaves
                      on mjesta.DrzaveId equals drzave.DrzaveId
@@ -54,7 +54,6 @@ namespace WindowsForme_Zadatak
 
         private void UpdateComboBoxDrzave()
         {
-            db = new DataClasses1DataContext();
             comboBoxDrzave.DataSource = db.Drzaves
                                       .Where(p =>p.Deleted==false)
                                       .Select(p => p.Naziv)
@@ -79,7 +78,6 @@ namespace WindowsForme_Zadatak
 
         private void updateRecord()
         {
-            db = new DataClasses1DataContext();
             if (!db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == comboBoxDrzave.Text.ToLower()))
             {
                 Drzave drzava = new Drzave();
@@ -131,7 +129,6 @@ namespace WindowsForme_Zadatak
 
         private void insertButton_Click(object sender, EventArgs e)
         {
-            db = new DataClasses1DataContext();
             if (db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == comboBoxDrzave.Text.ToLower()))
             {
 
@@ -171,7 +168,6 @@ namespace WindowsForme_Zadatak
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            db = new DataClasses1DataContext();
             string drzavaString = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             string mjestoString = dataGridView1.CurrentRow.Cells[1].Value.ToString();
             var drza = db.Drzaves.Where(d => d.Naziv.ToString().ToLower() == drzavaString.ToLower()).FirstOrDefault();

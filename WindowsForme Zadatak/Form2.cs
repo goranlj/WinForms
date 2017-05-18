@@ -13,9 +13,12 @@ namespace WindowsForme_Zadatak
     public partial class Form2 : Form
     {
 
-        DataClasses1DataContext db;
+        DataClasses1DataContext db = new DataClasses1DataContext();
         private ComboBox cmbMjestaMain;
         private ComboBox cmbDrzaveMain;
+        public static string unosTxt;
+        public static string unosTxtDrzava;
+
         public Form2(Form1 mainForma)
         {
             InitializeComponent();
@@ -29,7 +32,6 @@ namespace WindowsForme_Zadatak
         private void Form2_Load(object sender, EventArgs e)
         {
             
-            db = new DataClasses1DataContext();
             drzavaCombo.DataSource = db.Drzaves
                                       .Select(p => p.Naziv)
                                       .ToArray();
@@ -43,7 +45,6 @@ namespace WindowsForme_Zadatak
 
         private void unosPodataka()
         {
-                db = new DataClasses1DataContext();
                 if (!db.Drzaves.Any(g => g.Naziv.ToString().ToLower() == drzavaCombo.Text.ToLower()))   
             {
                 Drzave drzava = new Drzave();
@@ -63,9 +64,6 @@ namespace WindowsForme_Zadatak
                 db.SubmitChanges();
                 this.Close();
         }
-
-        public static string unosTxt;
-        public static string unosTxtDrzava;
 
         private void potvrdiButton_Click(object sender, EventArgs e)
         {
