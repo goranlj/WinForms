@@ -279,8 +279,9 @@ namespace WindowsForme_Zadatak
             DialogResult dialogResult = MessageBox.Show("Želite li sigurno izbrisati ovaj unos?", "Brisanje unosa", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
             if (dialogResult == DialogResult.Yes)
             {
+                var mjesto = db.Mjestas.Where(m => m.Naziv.ToString().ToLower() == mjestocmbBox.Text.ToLower()).FirstOrDefault();
                 string oib = dataGridView1.CurrentRow.Cells[5].Value.ToString();
-                var query = db.Partneris.Where(p => p.OIB.ToString() == oib).FirstOrDefault();
+                var query = db.Partneris.Where(p => p.OIB.ToString() == oib && p.Deleted == false && p.MjestaId == mjesto.MjestaId).FirstOrDefault() ;
                 query.Deleted = true;
                 db.SubmitChanges();
                 RefreshAll();
